@@ -1,0 +1,9 @@
+services:
+  aws-dev:
+    build: .  # This points to your Dockerfile
+    volumes:
+      - .:/var/task  # Syncs your local code to the container
+    environment:
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+    command: pytest  # Default action when you run 'docker-compose up'
