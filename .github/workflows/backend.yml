@@ -1,0 +1,180 @@
+name: Deploy Backend
+
+# Triggers only when backend files change on main.
+# PR validation (pr-validation.yml) must pass before this runs —
+# enforce that via branch protection rules on main.
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'backend/**'
+      - '.github/workflows/backend.yml'
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+
+  # ── Job 1: Unit tests with coverage enforcement ───────────────────────────────
+  test:
+    name: Test backend
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install pinned dependencies
+        # Uses requirements-dev.txt for reproducible builds.
+        # `pip install pytest boto3` installs whatever is latest that day
+        # and can break without any code change — never do that in CI.
+        run: pip install -r backend/requirements-dev.txt
+
+      - name: Run pytest with coverage
+        run: |
+          pytest backend/tests/ -v --tb=short \
+            --cov=backend/counter_function \
+            --cov-report=term-missing \
+            --cov-fail-under=90
+
+  # ── Job 2: SAM template validation ───────────────────────────────────────────
+  validate-template:
+    name: Validate SAM template
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up SAM CLI
+        uses: aws-actions/setup-sam@v2
+        with:
+          use-installer: true
+
+      - name: Validate SAM template
+        run: sam validate --lint
+        working-directory: backend
+
+  # ── Job 3: SAM build and deploy ───────────────────────────────────────────────
+  deploy:
+    name: SAM deploy
+    runs-on: ubuntu-latest
+    needs: [test, validate-template]   # Both must pass
+    environment: production
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Set up SAM CLI
+        uses: aws-actions/setup-sam@v2
+        with:
+          use-installer: true
+
+      - name: Configure AWS credentials via OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::${{ vars.AWS_ACCOUNT_ID }}:role/GitHubActions-Resume-Backend
+          aws-region: ${{ vars.AWS_REGION }}
+
+      - name: SAM build
+        working-directory: backend
+        run: sam build
+
+      - name: SAM deploy
+        working-directory: backend
+        run: |
+          sam deploy \
+            --stack-name ${{ vars.SAM_STACK_NAME }} \
+            --region ${{ vars.AWS_REGION }} \
+            --s3-bucket ${{ vars.SAM_ARTIFACT_BUCKET }} \
+            --no-confirm-changeset \
+            --no-fail-on-empty-changeset \
+            --capabilities CAPABILITY_IAM
+
+  # ── Job 4: Post-deploy integration test ───────────────────────────────────────
+  # Calls the live API Gateway endpoint and validates the response structure.
+  # Fails the workflow if the API is unreachable or returns unexpected data.
+  integration-test:
+    name: Integration test live API
+    runs-on: ubuntu-latest
+    needs: deploy
+
+    steps:
+      - name: Configure AWS credentials via OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::${{ vars.AWS_ACCOUNT_ID }}:role/GitHubActions-Resume-Backend
+          aws-region: ${{ vars.AWS_REGION }}
+
+      - name: Resolve live API URL from CloudFormation
+        # Reads the ApiUrl output from the deployed stack rather than
+        # storing it as a static variable — always reflects the actual
+        # deployed endpoint even if the stack is recreated.
+        run: |
+          API_URL=$(aws cloudformation describe-stacks \
+            --stack-name ${{ vars.SAM_STACK_NAME }} \
+            --region ${{ vars.AWS_REGION }} \
+            --query "Stacks[0].Outputs[?OutputKey=='ApiUrl'].OutputValue" \
+            --output text)
+
+          echo "API_URL=$API_URL" >> $GITHUB_ENV
+          echo "Resolved API URL: $API_URL"
+
+      - name: Call live API and validate response
+        run: |
+          RESPONSE=$(curl -s --max-time 15 "$API_URL")
+          echo "Response: $RESPONSE"
+
+          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+            --max-time 15 "$API_URL")
+          echo "HTTP status: $HTTP_STATUS"
+
+          # Must return 200
+          if [[ "$HTTP_STATUS" != "200" ]]; then
+            echo "ERROR: API returned HTTP $HTTP_STATUS — expected 200"
+            exit 1
+          fi
+
+          # Response must contain a 'count' key
+          if ! echo "$RESPONSE" | python3 -c "
+import sys, json
+data = json.load(sys.stdin)
+assert 'count' in data, 'Missing count key in response'
+assert isinstance(data['count'], int), f'count is not an integer: {type(data[\"count\"])}'
+assert data['count'] > 0, f'count is not positive: {data[\"count\"]}'
+print(f'✓ count = {data[\"count\"]}')
+"; then
+            echo "ERROR: API response failed validation"
+            exit 1
+          fi
+
+      - name: Verify CORS header is present
+        run: |
+          CORS_HEADER=$(curl -s -o /dev/null -w "%{header_json}" \
+            --max-time 15 "$API_URL" \
+            | python3 -c "
+import sys, json
+headers = json.load(sys.stdin)
+cors = headers.get('access-control-allow-origin', [''])[0]
+print(cors)
+")
+          echo "CORS header: $CORS_HEADER"
+          if [[ -z "$CORS_HEADER" ]]; then
+            echo "ERROR: Access-Control-Allow-Origin header missing"
+            exit 1
+          fi
+          echo "✓ CORS header present"

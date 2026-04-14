@@ -1,0 +1,120 @@
+name: Deploy Frontend
+
+# Triggers only when frontend files change on main.
+# PR validation (pr-validation.yml) must pass before this runs —
+# enforce that via branch protection rules on main.
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'frontend/**'
+      - '.github/workflows/frontend.yml'
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+
+  # ── Job 1: Validate before deploying ─────────────────────────────────────────
+  # Runs the same checks as PR validation as a final safety net.
+  # Catches direct pushes to main that bypassed a PR.
+  validate:
+    name: Validate frontend
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install htmlhint
+        run: npm install -g htmlhint
+
+      - name: Lint HTML
+        run: htmlhint frontend/**/*.html --config .htmlhintrc
+
+      - name: Verify counter element exists
+        run: |
+          if ! grep -q 'id="counter"' frontend/index.html; then
+            echo "ERROR: <span id=\"counter\"> is missing from index.html"
+            exit 1
+          fi
+          echo "✓ Counter element found"
+
+      - name: Verify no localhost URLs committed
+        run: |
+          if grep -q 'localhost' frontend/js/main.js; then
+            echo "ERROR: localhost URL found in main.js"
+            exit 1
+          fi
+          echo "✓ No localhost URLs"
+
+  # ── Job 2: Deploy to S3 + invalidate CloudFront ───────────────────────────────
+  deploy:
+    name: Deploy to S3
+    runs-on: ubuntu-latest
+    needs: validate
+    environment: production
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials via OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::${{ vars.AWS_ACCOUNT_ID }}:role/GitHubActions-Resume-Frontend
+          aws-region: ${{ vars.AWS_REGION }}
+
+      - name: Sync frontend to S3
+        run: |
+          aws s3 sync frontend/ s3://${{ vars.S3_BUCKET }}/ \
+            --delete \
+            --cache-control "max-age=86400, public"
+
+      - name: Invalidate CloudFront cache
+        run: |
+          INVALIDATION_ID=$(aws cloudfront create-invalidation \
+            --distribution-id ${{ vars.CLOUDFRONT_DISTRIBUTION_ID }} \
+            --paths "/*" \
+            --query 'Invalidation.Id' \
+            --output text)
+          echo "Invalidation ID: $INVALIDATION_ID"
+
+  # ── Job 3: Post-deploy integration test ───────────────────────────────────────
+  # Hits the live site after deploy to verify it is actually reachable.
+  # Fails the workflow (and notifies you) if the site is down.
+  smoke-test:
+    name: Smoke test live site
+    runs-on: ubuntu-latest
+    needs: deploy
+
+    steps:
+      - name: Wait for CloudFront propagation
+        # CloudFront invalidations take 10–60 seconds to propagate globally.
+        run: sleep 30
+
+      - name: Check site is reachable
+        run: |
+          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+            --max-time 15 \
+            "https://${{ vars.CLOUDFRONT_DOMAIN }}")
+
+          echo "HTTP status: $HTTP_STATUS"
+
+          if [[ "$HTTP_STATUS" != "200" ]]; then
+            echo "ERROR: Site returned HTTP $HTTP_STATUS — expected 200"
+            exit 1
+          fi
+          echo "✓ Site is reachable"
+
+      - name: Verify counter element is present in served HTML
+        run: |
+          BODY=$(curl -s --max-time 15 "https://${{ vars.CLOUDFRONT_DOMAIN }}")
+          if ! echo "$BODY" | grep -q 'id="counter"'; then
+            echo "ERROR: counter element missing from live page"
+            exit 1
+          fi
+          echo "✓ Counter element present in served HTML"

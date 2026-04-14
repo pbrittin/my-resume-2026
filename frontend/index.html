@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Resume — Your Name">
+    <title>Your Name — Resume</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<!-- ── Header ──────────────────────────────────────────────── -->
+<header id="header">
+    <div class="wrapper">
+        <h1>Hi, I'm Your Name</h1>
+        <p class="tagline">Your Title / Short Professional Tagline</p>
+
+        <div class="counter-badge">
+            <span class="label">Page views</span>
+            <span id="counter">…</span>
+        </div>
+
+        <ul class="social-links">
+            <li><a href="https://github.com/your-username" target="_blank" rel="noopener">GitHub</a></li>
+            <li><a href="https://linkedin.com/in/your-profile" target="_blank" rel="noopener">LinkedIn</a></li>
+            <li><a href="mailto:you@example.com">Email</a></li>
+            <!-- Add or remove links as needed -->
+        </ul>
+    </div>
+</header>
+
+<!-- ── Nav ─────────────────────────────────────────────────── -->
+<nav id="nav">
+    <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#certifications">Certifications</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#education">Education</a></li>
+        <li><a href="#skills">Skills</a></li>
+    </ul>
+</nav>
+
+<!-- ── Main ────────────────────────────────────────────────── -->
+<main>
+    <div class="wrapper">
+
+        <!-- About -->
+        <section id="about">
+            <h2>About Me</h2>
+            <div class="about-inner">
+                <img src="images/me.png" alt="Profile photo of Your Name">
+                <p>
+                    Replace this paragraph with your professional bio. Describe who you are,
+                    what you do, and what you are looking for. Keep it concise — two to four
+                    sentences is ideal.
+                </p>
+            </div>
+        </section>
+
+        <!-- Certifications -->
+        <section id="certifications">
+            <h2>Certifications</h2>
+            <div class="cert-grid">
+
+                <div class="cert-item">
+                    Certification Name
+                    <span class="issuer">Issuing Organization · Year</span>
+                </div>
+
+                <div class="cert-item">
+                    Certification Name
+                    <span class="issuer">Issuing Organization · Year</span>
+                </div>
+
+                <div class="cert-item">
+                    Certification Name
+                    <span class="issuer">Issuing Organization · Year</span>
+                </div>
+
+                <!-- Copy a .cert-item block for each additional certification -->
+
+            </div>
+        </section>
+
+        <!-- Experience -->
+        <section id="experience">
+            <h2>Work Experience</h2>
+
+            <div class="entry">
+                <div class="entry-header">
+                    <h3>Job Title</h3>
+                    <span class="dates">Month Year – Present</span>
+                </div>
+                <p class="company">Company Name · Location</p>
+                <ul>
+                    <li>Accomplishment or responsibility — lead with an action verb and quantify where possible.</li>
+                    <li>Accomplishment or responsibility.</li>
+                    <li>Accomplishment or responsibility.</li>
+                </ul>
+            </div>
+
+            <div class="entry">
+                <div class="entry-header">
+                    <h3>Job Title</h3>
+                    <span class="dates">Month Year – Month Year</span>
+                </div>
+                <p class="company">Company Name · Location</p>
+                <ul>
+                    <li>Accomplishment or responsibility.</li>
+                    <li>Accomplishment or responsibility.</li>
+                </ul>
+            </div>
+
+            <!-- Copy an .entry block for each additional role -->
+
+        </section>
+
+        <!-- Education -->
+        <section id="education">
+            <h2>Education</h2>
+
+            <div class="entry">
+                <div class="entry-header">
+                    <h3>Degree Name</h3>
+                    <span class="dates">Expected Month Year</span>
+                </div>
+                <p class="company">Institution Name</p>
+            </div>
+
+            <!-- Copy an .entry block for each additional degree -->
+
+        </section>
+
+        <!-- Skills -->
+        <section id="skills">
+            <h2>Skills</h2>
+
+            <div class="skills-group">
+                <h3>Cloud & Infrastructure</h3>
+                <div class="tag-list">
+                    <span class="tag">AWS</span>
+                    <span class="tag">Skill</span>
+                    <span class="tag">Skill</span>
+                    <!-- Add tags -->
+                </div>
+            </div>
+
+            <div class="skills-group">
+                <h3>Security & Compliance</h3>
+                <div class="tag-list">
+                    <span class="tag">Skill</span>
+                    <span class="tag">Skill</span>
+                </div>
+            </div>
+
+            <div class="skills-group">
+                <h3>Languages & Tools</h3>
+                <div class="tag-list">
+                    <span class="tag">Python</span>
+                    <span class="tag">Skill</span>
+                </div>
+            </div>
+
+        </section>
+
+    </div><!-- /.wrapper -->
+</main>
+
+<!-- ── Footer ──────────────────────────────────────────────── -->
+<footer id="footer">
+    <div class="wrapper">
+        <p>
+            Design: <a href="https://html5up.net" target="_blank" rel="noopener">HTML5 UP</a>
+            &nbsp;·&nbsp;
+            Built on AWS
+        </p>
+    </div>
+</footer>
+
+<script src="js/main.js"></script>
+
+<!-- Active nav link on scroll -->
+<script>
+    const sections = document.querySelectorAll('main section[id]');
+    const navLinks = document.querySelectorAll('#nav a');
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                navLinks.forEach(link => link.classList.remove('active'));
+                const active = document.querySelector(`#nav a[href="#${entry.target.id}"]`);
+                if (active) active.classList.add('active');
+            }
+        });
+    }, { rootMargin: '-40% 0px -55% 0px' });
+
+    sections.forEach(section => observer.observe(section));
+</script>
+
+</body>
+</html>

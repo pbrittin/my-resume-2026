@@ -1,0 +1,101 @@
+name: PR Validation
+
+# Runs on every pull request targeting main.
+# All jobs must pass before a merge is allowed.
+# Configure this as a required status check in:
+#   GitHub repo → Settings → Branches → Branch protection rules → main
+#   → Require status checks to pass before merging
+#   → Add: "Lint HTML", "Test backend", "Validate SAM template"
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+
+  # ── Job 1: HTML/CSS lint ─────────────────────────────────────────────────────
+  # Catches broken markup and missing required elements before deploy.
+  lint-frontend:
+    name: Lint HTML
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install htmlhint
+        run: npm install -g htmlhint
+
+      - name: Lint HTML
+        run: htmlhint frontend/**/*.html --config .htmlhintrc
+
+      - name: Verify counter element exists
+        # The visitor counter will silently fail if this element is missing.
+        # This catches accidental deletion during resume edits.
+        run: |
+          if ! grep -q 'id="counter"' frontend/index.html; then
+            echo "ERROR: <span id=\"counter\"> is missing from index.html"
+            echo "The visitor counter JavaScript requires this element."
+            exit 1
+          fi
+          echo "✓ Counter element found"
+
+      - name: Verify API_URL placeholder exists in main.js
+        # Catches the case where someone hardcodes a localhost URL.
+        run: |
+          if grep -q 'localhost' frontend/js/main.js; then
+            echo "ERROR: localhost URL found in main.js — do not commit local URLs"
+            exit 1
+          fi
+          echo "✓ No localhost URLs in main.js"
+
+  # ── Job 2: Backend unit tests with coverage ──────────────────────────────────
+  test-backend:
+    name: Test backend
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install pinned dependencies
+        run: pip install -r backend/requirements-dev.txt
+
+      - name: Run pytest with coverage
+        run: |
+          pytest backend/tests/ -v --tb=short \
+            --cov=backend/counter_function \
+            --cov-report=term-missing \
+            --cov-fail-under=90
+        # --cov-fail-under=90 fails the job if coverage drops below 90%.
+        # Adjust the threshold as you add more Lambda functions.
+
+  # ── Job 3: SAM template validation ──────────────────────────────────────────
+  validate-sam:
+    name: Validate SAM template
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up SAM CLI
+        uses: aws-actions/setup-sam@v2
+        with:
+          use-installer: true
+
+      - name: Validate SAM template
+        # sam validate --lint catches CloudFormation schema errors,
+        # invalid resource references, and SAM-specific mistakes
+        # without needing AWS credentials.
+        run: sam validate --lint
+        working-directory: backend

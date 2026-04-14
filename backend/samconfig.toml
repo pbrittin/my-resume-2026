@@ -1,0 +1,28 @@
+# samconfig.toml — AWS SAM deploy configuration
+#
+# Generated template — fill in your values from config.env before first deploy.
+# After running `sam deploy --guided` once, SAM will overwrite this with your
+# actual values. Commit the result so future `sam deploy` runs need no flags.
+#
+# IMPORTANT: This file is listed in .gitignore by default.
+# Once you have filled it in and confirmed it contains no secrets,
+# remove it from .gitignore if you want CI/CD to use it directly.
+# (The SAM artifact bucket name is not a secret.)
+
+version = 0.1
+
+[default.global.parameters]
+stack_name = "aws-resume-backend"
+
+[default.build.parameters]
+cached = true
+parallel = true
+
+[default.deploy.parameters]
+capabilities       = "CAPABILITY_IAM"
+confirm_changeset  = false
+fail_on_empty_changeset = false
+# Fill these in with your values from config.env:
+region             = "us-east-1"
+s3_bucket          = "your-resume-sam-artifacts"   # SAM_ARTIFACT_BUCKET
+s3_prefix          = "aws-resume-backend"

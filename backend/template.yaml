@@ -1,0 +1,107 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  AWS Resume Challenge — serverless visitor counter backend.
+  Deploys: DynamoDB table, Lambda function (Python 3.12), API Gateway REST API.
+
+# ── Globals applied to all Lambda functions ──────────────────────────────────
+Globals:
+  Function:
+    Timeout: 10
+    MemorySize: 128
+    Runtime: python3.12
+    Architectures:
+      - arm64          # Graviton2 — ~20% cheaper and faster than x86 for Python
+    Environment:
+      Variables:
+        TABLE_NAME: !Ref VisitorCounterTable
+        # CORS_ORIGIN: https://www.yourdomain.com   ← uncomment and set after CloudFront is live
+
+Resources:
+
+  # ── DynamoDB Table ────────────────────────────────────────────────────────
+  VisitorCounterTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: resume-visitor-counter
+      BillingMode: PAY_PER_REQUEST      # On-demand — no capacity planning; free tier covers resume traffic
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: true
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+      Tags:
+        - Key: Project
+          Value: aws-resume
+
+  # ── Lambda Function ───────────────────────────────────────────────────────
+  CounterFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: resume-counter
+      CodeUri: counter_function/
+      Handler: app.lambda_handler
+      Description: Increments the resume visitor counter in DynamoDB
+      # SAM expands DynamoDBCrudPolicy to a least-privilege inline policy
+      # scoped to this specific table — no wildcard resource ARNs.
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref VisitorCounterTable
+      Events:
+        GetCounter:
+          Type: Api
+          Properties:
+            Path: /counter
+            Method: get
+            RestApiId: !Ref ResumeApi
+        OptionsCounter:
+          Type: Api
+          Properties:
+            Path: /counter
+            Method: options
+            RestApiId: !Ref ResumeApi
+      Tags:
+        Project: aws-resume
+
+  # ── API Gateway REST API ──────────────────────────────────────────────────
+  ResumeApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: resume-api
+      StageName: prod
+      # CORS is handled in the Lambda response headers for full control.
+      # The GatewayResponse block below handles 4xx/5xx CORS on gateway errors.
+      GatewayResponses:
+        DEFAULT_4XX:
+          ResponseParameters:
+            Headers:
+              Access-Control-Allow-Origin: "'*'"
+        DEFAULT_5XX:
+          ResponseParameters:
+            Headers:
+              Access-Control-Allow-Origin: "'*'"
+      Tags:
+        Project: aws-resume
+
+# ── Outputs printed after `sam deploy` ───────────────────────────────────────
+Outputs:
+
+  ApiUrl:
+    Description: >
+      API Gateway endpoint URL — paste this into frontend/js/main.js as API_URL.
+    Value: !Sub "https://${ResumeApi}.execute-api.${AWS::Region}.amazonaws.com/prod/counter"
+
+  CounterFunctionArn:
+    Description: Lambda function ARN
+    Value: !GetAtt CounterFunction.Arn
+
+  CounterFunctionRole:
+    Description: IAM role ARN assumed by the Lambda function
+    Value: !GetAtt CounterFunctionRole.Arn
+
+  DynamoDBTableName:
+    Description: DynamoDB table name
+    Value: !Ref VisitorCounterTable

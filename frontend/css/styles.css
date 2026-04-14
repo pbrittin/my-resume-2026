@@ -1,0 +1,325 @@
+/* ============================================================
+   AWS Resume — styles.css
+   Clean, professional, responsive. No frameworks required.
+   ============================================================ */
+
+/* ── Reset & base ─────────────────────────────────────────── */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --color-bg:          #f8f9fa;
+    --color-surface:     #ffffff;
+    --color-primary:     #1a3a5c;
+    --color-accent:      #2e7d9e;
+    --color-accent-light:#e8f4f8;
+    --color-text:        #2c2c2c;
+    --color-text-muted:  #6c757d;
+    --color-border:      #dee2e6;
+    --color-counter-bg:  #1a3a5c;
+    --color-counter-fg:  #ffffff;
+
+    --font-body:   'Segoe UI', system-ui, -apple-system, sans-serif;
+    --font-mono:   'Courier New', Courier, monospace;
+
+    --radius:      6px;
+    --shadow-sm:   0 1px 3px rgba(0,0,0,0.08);
+    --shadow-md:   0 4px 12px rgba(0,0,0,0.10);
+
+    --max-width:   860px;
+    --gap:         2rem;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--color-text);
+    background: var(--color-bg);
+}
+
+a {
+    color: var(--color-accent);
+    text-decoration: none;
+}
+a:hover { text-decoration: underline; }
+
+/* ── Layout wrapper ───────────────────────────────────────── */
+.wrapper {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+/* ── Header ───────────────────────────────────────────────── */
+#header {
+    background: var(--color-primary);
+    color: #fff;
+    padding: 3rem 0 2rem;
+    text-align: center;
+}
+
+#header h1 {
+    font-size: 2.4rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 0.4rem;
+}
+
+#header p.tagline {
+    font-size: 1.05rem;
+    opacity: 0.85;
+    margin-bottom: 1.2rem;
+}
+
+/* Visitor counter badge */
+.counter-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 999px;
+    padding: 0.35rem 1rem;
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+}
+
+.counter-badge .label { opacity: 0.8; }
+
+#counter {
+    font-weight: 700;
+    font-size: 1rem;
+    min-width: 2ch;
+    display: inline-block;
+}
+
+/* Social links */
+.social-links {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+}
+
+.social-links a {
+    color: rgba(255,255,255,0.85);
+    border: 1px solid rgba(255,255,255,0.35);
+    border-radius: var(--radius);
+    padding: 0.3rem 0.8rem;
+    font-size: 0.875rem;
+    transition: background 0.15s, color 0.15s;
+}
+.social-links a:hover {
+    background: rgba(255,255,255,0.2);
+    color: #fff;
+    text-decoration: none;
+}
+
+/* ── Nav bar ──────────────────────────────────────────────── */
+#nav {
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--shadow-sm);
+}
+
+#nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0;
+}
+
+#nav a {
+    display: block;
+    padding: 0.75rem 1.1rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-bottom: 2px solid transparent;
+    transition: color 0.15s, border-color 0.15s;
+}
+#nav a:hover,
+#nav a.active {
+    color: var(--color-accent);
+    border-bottom-color: var(--color-accent);
+    text-decoration: none;
+}
+
+/* ── Main content ─────────────────────────────────────────── */
+main {
+    padding: var(--gap) 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap);
+}
+
+/* ── Sections ─────────────────────────────────────────────── */
+section {
+    background: var(--color-surface);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    padding: 1.75rem 2rem;
+}
+
+section h2 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--color-primary);
+    padding-bottom: 0.6rem;
+    border-bottom: 2px solid var(--color-accent-light);
+    margin-bottom: 1.2rem;
+}
+
+/* ── About ────────────────────────────────────────────────── */
+.about-inner {
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+}
+
+.about-inner img {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--color-accent-light);
+    flex-shrink: 0;
+}
+
+.about-inner p { color: var(--color-text); }
+
+/* ── Certifications ───────────────────────────────────────── */
+.cert-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.75rem;
+}
+
+.cert-item {
+    background: var(--color-accent-light);
+    border-radius: var(--radius);
+    padding: 0.6rem 0.9rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    border-left: 3px solid var(--color-accent);
+}
+
+.cert-item .issuer {
+    font-weight: 400;
+    color: var(--color-text-muted);
+    font-size: 0.8rem;
+    display: block;
+    margin-top: 0.1rem;
+}
+
+/* ── Experience & Education ───────────────────────────────── */
+.entry {
+    padding-bottom: 1.25rem;
+    margin-bottom: 1.25rem;
+    border-bottom: 1px solid var(--color-border);
+}
+.entry:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+
+.entry-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    margin-bottom: 0.2rem;
+}
+
+.entry-header h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-text);
+}
+
+.entry-header .dates {
+    font-size: 0.825rem;
+    color: var(--color-text-muted);
+    white-space: nowrap;
+}
+
+.entry .company {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-accent);
+    margin-bottom: 0.4rem;
+}
+
+.entry ul {
+    padding-left: 1.2rem;
+    font-size: 0.9rem;
+    color: var(--color-text);
+}
+.entry ul li { margin-bottom: 0.2rem; }
+
+/* ── Skills ───────────────────────────────────────────────── */
+.skills-group { margin-bottom: 1rem; }
+.skills-group:last-child { margin-bottom: 0; }
+
+.skills-group h3 {
+    font-size: 0.825rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-muted);
+    margin-bottom: 0.5rem;
+}
+
+.tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
+.tag {
+    background: var(--color-accent-light);
+    color: var(--color-primary);
+    border-radius: 999px;
+    padding: 0.2rem 0.7rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+/* ── Footer ───────────────────────────────────────────────── */
+#footer {
+    text-align: center;
+    padding: 2rem 0;
+    font-size: 0.825rem;
+    color: var(--color-text-muted);
+    border-top: 1px solid var(--color-border);
+}
+
+#footer a { color: var(--color-text-muted); }
+#footer a:hover { color: var(--color-accent); }
+
+/* ── Responsive ───────────────────────────────────────────── */
+@media (max-width: 600px) {
+    #header h1 { font-size: 1.8rem; }
+    section { padding: 1.25rem 1.1rem; }
+    .about-inner { flex-direction: column; align-items: center; text-align: center; }
+    .entry-header { flex-direction: column; }
+    .entry-header .dates { font-size: 0.8rem; }
+}

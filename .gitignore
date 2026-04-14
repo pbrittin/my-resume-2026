@@ -1,0 +1,45 @@
+# ── AWS SAM ───────────────────────────────────────────────────
+.aws-sam/
+# samconfig.toml is intentionally NOT ignored.
+# It contains only non-secret config (region, stack name, artifact bucket).
+# Committing it lets GitHub Actions run `sam deploy` without any flags.
+
+# ── Infrastructure config ──────────────────────────────────────
+# config.env contains your account ID and other setup values.
+# It must never be committed.
+infra/config.env
+
+# ── Python ────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+.venv/
+venv/
+env/
+.env
+
+# ── pytest ────────────────────────────────────────────────────
+.pytest_cache/
+.coverage
+htmlcov/
+
+# ── AWS credentials — never commit these ──────────────────────
+.aws/
+*.pem
+*.key
+
+# ── OS / editor ───────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.idea/
+.vscode/
+*.iml
