@@ -36,6 +36,7 @@
         <li><a href="#experience">Experience</a></li>
         <li><a href="#certifications">Certifications</a></li>
         <li><a href="#education">Education</a></li>
+        <li><a href="#about-project">About This Project</a></li>
     </ul>
 </nav>
 
@@ -371,6 +372,79 @@
             <p style="font-weight:600;font-size:1.05rem;">
                 &#128274;&nbsp; Active Secret Clearance &nbsp;—&nbsp; U.S. Government
             </p>
+        </section>
+
+        <!-- About This Project -->
+        <section id="about-project">
+            <h2>About This Project</h2>
+
+            <p style="margin-bottom:1.5rem;font-size:0.95rem;">
+                This is not a Wix page or a hosted template — it is a fully serverless web application
+                deployed on AWS, built as a hands-on implementation of the
+                <strong>AWS Cloud Resume Challenge</strong>. The goal is to demonstrate real cloud
+                engineering skills through infrastructure as code, CI/CD automation, serverless
+                architecture, and security best practices — all visible in the
+                <a href="https://github.com/pbrittin/my-resume-2026" target="_blank" rel="noopener">public GitHub repository</a>.
+            </p>
+
+            <div class="skills-group">
+                <h3>Frontend</h3>
+                <div class="tag-list">
+                    <span class="tag">Amazon S3 — Static File Hosting</span>
+                    <span class="tag">Amazon CloudFront — Global CDN</span>
+                    <span class="tag">AWS Certificate Manager — TLS/HTTPS</span>
+                    <span class="tag">Custom Domain (pmbxdevseceng.com)</span>
+                    <span class="tag">Vanilla HTML · CSS · JavaScript</span>
+                </div>
+            </div>
+
+            <div class="skills-group">
+                <h3>Backend — Visitor Counter</h3>
+                <div class="tag-list">
+                    <span class="tag">Amazon API Gateway — REST API</span>
+                    <span class="tag">AWS Lambda — Python 3.12 · ARM64 (Graviton2)</span>
+                    <span class="tag">Amazon DynamoDB — On-Demand Billing</span>
+                </div>
+            </div>
+
+            <div class="skills-group">
+                <h3>Infrastructure &amp; CI/CD</h3>
+                <div class="tag-list">
+                    <span class="tag">AWS SAM — Infrastructure as Code</span>
+                    <span class="tag">AWS CloudFormation</span>
+                    <span class="tag">GitHub Actions — Automated Pipelines</span>
+                    <span class="tag">OIDC Federation — Zero Stored Credentials</span>
+                    <span class="tag">pytest — 90%+ Code Coverage Required</span>
+                </div>
+            </div>
+
+            <div class="skills-group" style="margin-bottom:1.5rem;">
+                <h3>Security</h3>
+                <div class="tag-list">
+                    <span class="tag">Least-Privilege IAM Roles</span>
+                    <span class="tag">Private S3 Bucket (CloudFront-only access)</span>
+                    <span class="tag">GitHub OIDC — No Long-Lived AWS Keys in CI/CD</span>
+                </div>
+            </div>
+
+            <div class="entry" style="border-bottom:none;margin-bottom:0;padding-bottom:0;">
+                <h3 style="font-size:0.825rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--color-text-muted);margin-bottom:0.75rem;">How It Works</h3>
+                <p style="font-size:0.9rem;margin-bottom:0.75rem;">
+                    The static site is stored in a private S3 bucket and served globally through
+                    CloudFront with HTTPS via an ACM certificate on a custom domain. Every page load
+                    triggers a JavaScript <code style="font-family:var(--font-mono);font-size:0.85em;background:var(--color-accent-light);padding:0.1em 0.4em;border-radius:3px;">fetch()</code>
+                    to an API Gateway endpoint. The request invokes a Lambda function (Python 3.12,
+                    ARM64/Graviton2) that atomically increments a counter in DynamoDB and returns
+                    the updated count — displayed in the <em>Page views</em> badge at the top of this page.
+                </p>
+                <p style="font-size:0.9rem;">
+                    Every push to the main branch triggers two independent GitHub Actions pipelines.
+                    The frontend pipeline validates HTML, syncs assets to S3, and invalidates the
+                    CloudFront cache. The backend pipeline runs the test suite (minimum 90% coverage
+                    enforced), validates the SAM template, and deploys via CloudFormation — all
+                    authenticated through OIDC federation with no AWS credentials stored in GitHub.
+                </p>
+            </div>
         </section>
 
     </div><!-- /.wrapper -->
