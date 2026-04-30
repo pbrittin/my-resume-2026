@@ -35,6 +35,9 @@ htmlcov/
 *.pem
 *.key
 
+# ── Resume documents — local only ─────────────────────────────
+paul-brittin-cloudeng.docx
+
 # ── OS / editor ───────────────────────────────────────────────
 .DS_Store
 Thumbs.db

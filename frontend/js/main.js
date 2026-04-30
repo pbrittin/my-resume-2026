@@ -11,7 +11,7 @@
  *   https://<id>.execute-api.<region>.amazonaws.com/prod/counter
  */
 
-const API_URL = '';  // <-- paste your SAM ApiUrl output here
+const API_URL = 'https://o98zwz137a.execute-api.us-east-1.amazonaws.com/prod/counter';  // <-- paste your SAM ApiUrl output here
 
 const getVisitCount = async () => {
     const counterEl = document.getElementById('counter');

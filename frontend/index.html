@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Resume — Your Name">
-    <title>Your Name — Resume</title>
+    <meta name="description" content="Paul Brittin — Cloud Security Engineer | DevSecOps Engineer">
+    <title>Paul Brittin — Resume</title>
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
@@ -12,8 +12,8 @@
 <!-- ── Header ──────────────────────────────────────────────── -->
 <header id="header">
     <div class="wrapper">
-        <h1>Hi, I'm Your Name</h1>
-        <p class="tagline">Your Title / Short Professional Tagline</p>
+        <h1>Hi, I'm Paul Brittin</h1>
+        <p class="tagline">Cloud Security Engineer &nbsp;|&nbsp; DevSecOps Engineer</p>
 
         <div class="counter-badge">
             <span class="label">Page views</span>
@@ -21,10 +21,10 @@
         </div>
 
         <ul class="social-links">
-            <li><a href="https://github.com/your-username" target="_blank" rel="noopener">GitHub</a></li>
-            <li><a href="https://linkedin.com/in/your-profile" target="_blank" rel="noopener">LinkedIn</a></li>
-            <li><a href="mailto:you@example.com">Email</a></li>
-            <!-- Add or remove links as needed -->
+            <li><a href="https://linkedin.com/in/paul-brittin-a2829bb5" target="_blank" rel="noopener">LinkedIn</a></li>
+            <li><a href="mailto:pmbrittin@gmail.com">pmbrittin@gmail.com</a></li>
+            <li><a href="tel:6187920161">(618) 792-0161</a></li>
+            <li><span style="opacity:.7;font-size:.85rem;">Winfield, MO</span></li>
         </ul>
     </div>
 </header>
@@ -32,11 +32,12 @@
 <!-- ── Nav ─────────────────────────────────────────────────── -->
 <nav id="nav">
     <ul>
-        <li><a href="#about">About</a></li>
-        <li><a href="#certifications">Certifications</a></li>
-        <li><a href="#experience">Experience</a></li>
-        <li><a href="#education">Education</a></li>
+        <li><a href="#summary">Summary</a></li>
+        <li><a href="#accomplishments">Accomplishments</a></li>
         <li><a href="#skills">Skills</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#certifications">Certifications</a></li>
+        <li><a href="#education">Education</a></li>
     </ul>
 </nav>
 
@@ -44,123 +45,334 @@
 <main>
     <div class="wrapper">
 
-        <!-- About -->
-        <section id="about">
-            <h2>About Me</h2>
+        <!-- Professional Summary -->
+        <section id="summary">
+            <h2>Professional Summary</h2>
             <div class="about-inner">
-                <img src="images/me.png" alt="Profile photo of Your Name">
+                <img src="images/me.png" alt="Profile photo of Paul Brittin">
                 <p>
-                    Replace this paragraph with your professional bio. Describe who you are,
-                    what you do, and what you are looking for. Keep it concise — two to four
-                    sentences is ideal.
+                    Cloud-focused security engineer with 13+ years of enterprise IT experience and 9+ years
+                    specializing in cybersecurity, DISA STIG compliance, and hybrid cloud infrastructure.
+                    Holds an Active Secret clearance with hands-on expertise across the full lifecycle of
+                    enterprise security platforms — including Trellix ePO, Tenable Security Center, and
+                    SolarWinds — spanning co-led design and deployment, migration, and ongoing administration
+                    in on-premises VMware and AWS GovCloud environments. Proven record of identifying vendor
+                    defects, evaluating and proposing compliance automation solutions, and reporting results
+                    to executive leadership. Holds CCSP, AWS Solutions Architect Associate, Security+, and
+                    LPIC-2 certifications. Targeting roles in cloud engineering and DevSecOps.
                 </p>
             </div>
+        </section>
+
+        <!-- Key Accomplishments -->
+        <section id="accomplishments">
+            <h2>Key Accomplishments</h2>
+
+            <div class="entry">
+                <p>Developed a method to validate DISA STIGs on immutable Apache and Tomcat container
+                instances by analyzing container build scripts — approach independently confirmed as valid
+                in a 2021 ISC2 Security Congress presentation.</p>
+            </div>
+
+            <div class="entry">
+                <p>Identified a UNIX_Remote_Plugin defect in SCAP Compliance Checker causing intermittent
+                RHEL scan failures; opened vendor ticket, beta-tested the fix, and rolled the corrected
+                release to production.</p>
+            </div>
+
+            <div class="entry">
+                <p>Co-led full lifecycle design, deployment, and administration of enterprise Trellix ePO —
+                encompassing ENS, Policy Auditor, and DLP Device Control — producing security posture reports
+                submitted to a centralized vulnerability reporting system for senior leadership review.</p>
+            </div>
+
+            <div class="entry" style="border-bottom:none;margin-bottom:0;padding-bottom:0;">
+                <p>Demonstrated track record of migrating enterprise on-premises applications across major
+                version upgrades, including Tenable Security Center and Nessus Scanners (RHEL 6 → RHEL 7)
+                and Arcserve/SolarWinds platforms (Windows Server/SQL Server 2016 → 2022), maintaining
+                continuity of operations throughout.</p>
+            </div>
+        </section>
+
+        <!-- Core Technical Skills -->
+        <section id="skills">
+            <h2>Core Technical Skills</h2>
+
+            <div class="skills-group">
+                <h3>Cloud Platforms</h3>
+                <div class="tag-list">
+                    <span class="tag">AWS GovCloud</span>
+                    <span class="tag">EC2</span>
+                    <span class="tag">IAM</span>
+                    <span class="tag">S3</span>
+                    <span class="tag">VPC</span>
+                    <span class="tag">Security Groups</span>
+                </div>
+            </div>
+
+            <div class="skills-group">
+                <h3>Compliance &amp; STIG Tools</h3>
+                <div class="tag-list">
+                    <span class="tag">SCAP Compliance Checker (SCC)</span>
+                    <span class="tag">SteelCloud ConfigOS</span>
+                    <span class="tag">StigViewer</span>
+                    <span class="tag">OpenSCAP</span>
+                    <span class="tag">Ansible</span>
+                </div>
+            </div>
+
+            <div class="skills-group">
+                <h3>Endpoint &amp; DLP Security</h3>
+                <div class="tag-list">
+                    <span class="tag">Trellix ePO</span>
+                    <span class="tag">ENS</span>
+                    <span class="tag">Policy Auditor</span>
+                    <span class="tag">DLP / Device Control</span>
+                    <span class="tag">Trend Micro Deep Security</span>
+                    <span class="tag">SELinux</span>
+                </div>
+            </div>
+
+            <div class="skills-group">
+                <h3>Vulnerability Management</h3>
+                <div class="tag-list">
+                    <span class="tag">Tenable Security Center</span>
+                    <span class="tag">Nessus Manager</span>
+                    <span class="tag">Nessus Scanner</span>
+                    <span class="tag">Nessus Agent</span>
+                </div>
+            </div>
+
+            <div class="skills-group">
+                <h3>Container &amp; Orchestration</h3>
+                <div class="tag-list">
+                    <span class="tag">Docker</span>
+                    <span class="tag">Kubernetes</span>
+                    <span class="tag">Red Hat OpenShift</span>
+                </div>
+            </div>
+
+            <div class="skills-group">
+                <h3>Scripting &amp; Automation</h3>
+                <div class="tag-list">
+                    <span class="tag">Bash</span>
+                    <span class="tag">PowerShell</span>
+                    <span class="tag">Python</span>
+                    <span class="tag">YAML</span>
+                    <span class="tag">Automation Anywhere RPA</span>
+                </div>
+            </div>
+
+            <div class="skills-group">
+                <h3>Frameworks &amp; Standards</h3>
+                <div class="tag-list">
+                    <span class="tag">NIST RMF</span>
+                    <span class="tag">DISA STIGs</span>
+                    <span class="tag">DoD PKI/PKE</span>
+                </div>
+            </div>
+
+            <div class="skills-group">
+                <h3>Monitoring, OS &amp; Infrastructure</h3>
+                <div class="tag-list">
+                    <span class="tag">Splunk</span>
+                    <span class="tag">SolarWinds SAM</span>
+                    <span class="tag">RHEL 6/7/8</span>
+                    <span class="tag">Windows Server 2016/2022</span>
+                    <span class="tag">VMware vCenter</span>
+                    <span class="tag">Active Directory</span>
+                    <span class="tag">SSSD</span>
+                </div>
+            </div>
+
+            <div class="skills-group">
+                <h3>Collaboration &amp; ITSM</h3>
+                <div class="tag-list">
+                    <span class="tag">Jira</span>
+                    <span class="tag">Confluence</span>
+                    <span class="tag">Remedy ARS</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Professional Experience -->
+        <section id="experience">
+            <h2>Professional Experience</h2>
+
+            <div class="entry">
+                <div class="entry-header">
+                    <h3>Information Assurance and Compliance Engineer</h3>
+                    <span class="dates">Aug 2023 – Present</span>
+                </div>
+                <p class="company">Agile Defense Inc. &nbsp;·&nbsp; Systems Infrastructure, Applications &amp; Security</p>
+                <ul>
+                    <li>Co-led design, deployment, and administration of enterprise-wide centralized security
+                    management using Trellix ePO — including ENS Threat Prevention, Exploit Prevention, Policy
+                    Auditor, and DLP Device Control — tuning threat prevention and exploit protection settings
+                    to balance performance with maximum threat detection.</li>
+                    <li>Customized Policy Auditor audit rules to satisfy DoD compliance requirements; produced
+                    automated compliance reports and custom ePO dashboards to monitor endpoint security posture
+                    and agent health.</li>
+                    <li>Enforced granular DLP Device Control policies to prevent unauthorized USB and peripheral
+                    exfiltration; conducted policy testing and validation across the enterprise fleet.</li>
+                    <li>Co-led migration of Arcserve and SolarWinds platforms and databases from Windows Server
+                    2016/SQL Server 2016 to Windows Server 2022/SQL Server 2022, improving performance and
+                    supportability.</li>
+                    <li>Configured Trend Micro Deep Security policies across 35 AWS GovCloud EC2 instances in a
+                    test VPC, enabling malware protection to meet DoD requirements and tailoring path and file
+                    exclusions by instance type.</li>
+                    <li>Developed PowerShell scripts to collect Trellix ePO server metrics (disk space, running
+                    services, SQL index fragmentation) and deliver automated email reports to the admin team.</li>
+                    <li>Collaborated with SOC teams, risk analysts, and infrastructure engineers on cross-functional
+                    endpoint defense strategy; performed root cause analysis on agent communication and threat
+                    detection anomalies.</li>
+                </ul>
+            </div>
+
+            <div class="entry">
+                <div class="entry-header">
+                    <h3>Security Engineer III</h3>
+                    <span class="dates">Oct 2019 – Aug 2023</span>
+                </div>
+                <p class="company">Agile Defense Inc. &nbsp;·&nbsp; Enterprise Security &amp; Support</p>
+                <ul>
+                    <li>Served as STIG validation SME for two AWS GovCloud programs; collaborated with system
+                    engineers on RHEL, Kubernetes, and Docker security configurations and Container Platform
+                    SRG requirements.</li>
+                    <li>Developed a method to validate DISA STIGs on immutable Apache and Tomcat container
+                    instances by reviewing container build scripts — approach later confirmed valid at the
+                    2021 ISC2 Security Congress.</li>
+                    <li>Deployed and operated SCAP Compliance Checker for automated remote STIG scanning of
+                    Windows Server, RHEL, IE11, .NET, and Firefox using DISA benchmarks; identified a
+                    UNIX_Remote_Plugin defect causing intermittent RHEL connection failures, submitted vendor
+                    ticket, beta-tested fix, and rolled to production.</li>
+                    <li>Led evaluation of Automation Anywhere, SteelCloud ConfigOS, and Ansible to automate
+                    STIG compliance validation across Windows Server and RHEL; operationally deployed and
+                    configured each in test environments before selecting SCAP Compliance Checker as the
+                    production solution.</li>
+                    <li>Administered Tenable Security Center, Nessus Manager, Nessus Scanners, and Nessus
+                    Agents on-premises across VMware infrastructure; served as RHEL SME for SELinux,
+                    SSSD/Active Directory integration, filesystem, and storage troubleshooting.</li>
+                    <li>Wrote Bash, PowerShell, and Python scripts to automate OS patch checks (DNF), Tenable
+                    plugin downloads over HTTPS, and SolarWinds SAM server health metric and alert reporting.</li>
+                </ul>
+            </div>
+
+            <div class="entry">
+                <div class="entry-header">
+                    <h3>Team Lead / Security Engineer II</h3>
+                    <span class="dates">Feb 2017 – Oct 2019</span>
+                </div>
+                <p class="company">Array Information Technology &nbsp;·&nbsp; Enterprise Security &amp; Support</p>
+                <ul>
+                    <li>Directed RMF ATO deliverables and coordinated STIG validation for Air Mobility Command
+                    programs of record; authored and delivered program status reports to the COR.</li>
+                    <li>Developed STIG applicability matrices mapping DISA STIGs to Air Mobility Command systems
+                    by server type; established and maintained continuous STIG compliance monitoring workflows.</li>
+                    <li>Migrated Tenable Security Center and Nessus Scanners from RHEL 6 to RHEL 7 on-premises
+                    VMware VMs; deployed a new RHEL 7 Nessus Manager and upgraded Tenable.sc from v5.4 to v5.8;
+                    maintained DISA plugin updates, feed troubleshooting, and Nessus Scanner upgrades.</li>
+                    <li>Developed primary/backup Tenable.sc instance sync process to ensure continuity of
+                    operations; created and maintained a custom Tenable.sc plugin for DoD certificates.</li>
+                    <li>Generated DoD PKI-signed TLS certificates to link Tenable.sc to a centralized
+                    vulnerability reporting system; replaced self-signed certificates with DoD-signed
+                    certificates.</li>
+                    <li>Coordinated with the intrusion detection team to create a Splunk dashboard for monitoring
+                    ESS server patch status; performed offsite vulnerability scans and STIG validation for a
+                    remote program of record.</li>
+                    <li>Led team priority deconfliction across STIG validation, vulnerability reporting, and code
+                    review; reported compliance automation evaluation results to executive leadership; mentored
+                    junior personnel.</li>
+                </ul>
+            </div>
+
+            <div class="entry">
+                <div class="entry-header">
+                    <h3>Systems Administrator II</h3>
+                    <span class="dates">2012 – 2017</span>
+                </div>
+                <p class="company">CSRA Inc. / ExecuTech Strategic Consulting &nbsp;·&nbsp; DoD IT Services</p>
+                <ul>
+                    <li>Planned, coordinated, and performed system maintenance globally across a multi-site
+                    enterprise environment.</li>
+                    <li>Applied security requirements and IAVA/IAVB/TA patches to operating systems; managed
+                    accounts, network rights, and access controls across the computing environment.</li>
+                    <li>Wrote and maintained scripts to automate repetitive computing environment tasks;
+                    performed firewall IP additions and collaborated with privileged users to resolve
+                    information assurance problems.</li>
+                    <li>Provided escalated Tier 2 technical support via Remedy ARS; ensured hardware, software,
+                    and data resources were archived, sanitized, or disposed of per system security plan
+                    requirements.</li>
+                </ul>
+            </div>
+
         </section>
 
         <!-- Certifications -->
         <section id="certifications">
             <h2>Certifications</h2>
             <div class="cert-grid">
-
                 <div class="cert-item">
-                    Certification Name
-                    <span class="issuer">Issuing Organization · Year</span>
+                    ISC2 CCSP
+                    <span class="issuer">ISC2 &nbsp;·&nbsp; 2021 – 2027</span>
                 </div>
-
                 <div class="cert-item">
-                    Certification Name
-                    <span class="issuer">Issuing Organization · Year</span>
+                    ISC2 SSCP
+                    <span class="issuer">ISC2 &nbsp;·&nbsp; 2020 – 2026</span>
                 </div>
-
                 <div class="cert-item">
-                    Certification Name
-                    <span class="issuer">Issuing Organization · Year</span>
+                    AWS Solutions Architect — Associate (SAA-C03)
+                    <span class="issuer">Amazon Web Services &nbsp;·&nbsp; 2026 – 2029</span>
                 </div>
-
-                <!-- Copy a .cert-item block for each additional certification -->
-
-            </div>
-        </section>
-
-        <!-- Experience -->
-        <section id="experience">
-            <h2>Work Experience</h2>
-
-            <div class="entry">
-                <div class="entry-header">
-                    <h3>Job Title</h3>
-                    <span class="dates">Month Year – Present</span>
+                <div class="cert-item">
+                    AWS Cloud Practitioner
+                    <span class="issuer">Amazon Web Services &nbsp;·&nbsp; Issued 2023</span>
                 </div>
-                <p class="company">Company Name · Location</p>
-                <ul>
-                    <li>Accomplishment or responsibility — lead with an action verb and quantify where possible.</li>
-                    <li>Accomplishment or responsibility.</li>
-                    <li>Accomplishment or responsibility.</li>
-                </ul>
-            </div>
-
-            <div class="entry">
-                <div class="entry-header">
-                    <h3>Job Title</h3>
-                    <span class="dates">Month Year – Month Year</span>
+                <div class="cert-item">
+                    Microsoft Azure Fundamentals (AZ-900)
+                    <span class="issuer">Microsoft &nbsp;·&nbsp; Issued 2023</span>
                 </div>
-                <p class="company">Company Name · Location</p>
-                <ul>
-                    <li>Accomplishment or responsibility.</li>
-                    <li>Accomplishment or responsibility.</li>
-                </ul>
+                <div class="cert-item">
+                    CompTIA Cloud+
+                    <span class="issuer">CompTIA &nbsp;·&nbsp; 2020 – 2026</span>
+                </div>
+                <div class="cert-item">
+                    CompTIA Security+
+                    <span class="issuer">CompTIA &nbsp;·&nbsp; 2012 – 2027</span>
+                </div>
+                <div class="cert-item">
+                    CompTIA Network+
+                    <span class="issuer">CompTIA &nbsp;·&nbsp; 2014 – 2027</span>
+                </div>
+                <div class="cert-item">
+                    CompTIA Project+
+                    <span class="issuer">CompTIA &nbsp;·&nbsp; Issued 2018</span>
+                </div>
+                <div class="cert-item">
+                    Linux Professional Institute LPIC-2
+                    <span class="issuer">LPI &nbsp;·&nbsp; 2021 – 2026</span>
+                </div>
             </div>
-
-            <!-- Copy an .entry block for each additional role -->
-
         </section>
 
         <!-- Education -->
         <section id="education">
             <h2>Education</h2>
-
-            <div class="entry">
+            <div class="entry" style="border-bottom:none;margin-bottom:0;padding-bottom:0;">
                 <div class="entry-header">
-                    <h3>Degree Name</h3>
-                    <span class="dates">Expected Month Year</span>
+                    <h3>Bachelor of Science in Cloud Computing</h3>
+                    <span class="dates">June 16, 2025</span>
                 </div>
-                <p class="company">Institution Name</p>
+                <p class="company">Western Governors University &nbsp;·&nbsp; Salt Lake City, UT</p>
             </div>
-
-            <!-- Copy an .entry block for each additional degree -->
-
         </section>
 
-        <!-- Skills -->
-        <section id="skills">
-            <h2>Skills</h2>
-
-            <div class="skills-group">
-                <h3>Cloud & Infrastructure</h3>
-                <div class="tag-list">
-                    <span class="tag">AWS</span>
-                    <span class="tag">Skill</span>
-                    <span class="tag">Skill</span>
-                    <!-- Add tags -->
-                </div>
-            </div>
-
-            <div class="skills-group">
-                <h3>Security & Compliance</h3>
-                <div class="tag-list">
-                    <span class="tag">Skill</span>
-                    <span class="tag">Skill</span>
-                </div>
-            </div>
-
-            <div class="skills-group">
-                <h3>Languages & Tools</h3>
-                <div class="tag-list">
-                    <span class="tag">Python</span>
-                    <span class="tag">Skill</span>
-                </div>
-            </div>
-
+        <!-- Security Clearance -->
+        <section id="clearance" style="background:var(--color-primary);color:#fff;">
+            <h2 style="color:#fff;border-bottom-color:rgba(255,255,255,0.2);">Security Clearance</h2>
+            <p style="font-weight:600;font-size:1.05rem;">
+                &#128274;&nbsp; Active Secret Clearance &nbsp;—&nbsp; U.S. Government
+            </p>
         </section>
 
     </div><!-- /.wrapper -->
@@ -171,15 +383,13 @@
     <div class="wrapper">
         <p>
             Design: <a href="https://html5up.net" target="_blank" rel="noopener">HTML5 UP</a>
-            &nbsp;·&nbsp;
-            Built on AWS
+            &nbsp;·&nbsp; Built on AWS
         </p>
     </div>
 </footer>
 
 <script src="js/main.js"></script>
 
-<!-- Active nav link on scroll -->
 <script>
     const sections = document.querySelectorAll('main section[id]');
     const navLinks = document.querySelectorAll('#nav a');

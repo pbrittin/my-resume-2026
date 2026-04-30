@@ -12,7 +12,8 @@
 version = 0.1
 
 [default.global.parameters]
-stack_name = "aws-resume-backend"
+stack_name = "my-resume-2026"
+region = "us-east-1"
 
 [default.build.parameters]
 cached = true
@@ -20,9 +21,10 @@ parallel = true
 
 [default.deploy.parameters]
 capabilities       = "CAPABILITY_IAM"
-confirm_changeset  = false
+confirm_changeset  = true
 fail_on_empty_changeset = false
 # Fill these in with your values from config.env:
-region             = "us-east-1"
-s3_bucket          = "your-resume-sam-artifacts"   # SAM_ARTIFACT_BUCKET
-s3_prefix          = "aws-resume-backend"
+s3_bucket          = "my-resume-20206-sam-artifacts"   # SAM_ARTIFACT_BUCKET
+s3_prefix          = "my-resume-2026"
+resolve_s3 = true
+image_repositories = []
