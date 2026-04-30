@@ -15,7 +15,7 @@ Globals:
     Environment:
       Variables:
         TABLE_NAME: !Ref VisitorCounterTable
-        CORS_ORIGIN: https://www.pmbxdevseceng.com   ← uncomment and set after CloudFront is live
+        CORS_ORIGIN: https://www.pmbxdevseceng.com
 
 Resources:
 
